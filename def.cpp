@@ -635,6 +635,7 @@ HRESULT external_open_storage(const OLECHAR* pwcsName, IStorage* pstgPriority, D
 }
 
 #include "standalone/inc/vpinmame/VPinMAMEController.h"
+#include "standalone/inc/skewer/SkewerController.h"
 #include "standalone/inc/wmp/WMPCore.h"
 #include "standalone/inc/flexdmd/FlexDMD.h"
 #include "standalone/inc/ultradmd/UltraDMDDMDObject.h"
@@ -647,6 +648,12 @@ HRESULT external_create_object(const WCHAR* progid, IClassFactory* cf, IUnknown*
 
    if (!wcsicmp(progid, L"VPinMAME.Controller")) {
       hres = (new VPinMAMEController())->QueryInterface(IID_IController, (void**)obj);
+   }
+   else if (!wcsicmp(progid, L"Skewer.Controller")) {
+      hres = (new SkewerController())->QueryInterface(IID_IController, (void**)obj);
+   }
+   else if (!wcsicmp(progid, L"VPinSPA.Controller")) {
+      hres = (new SkewerController())->QueryInterface(IID_IController, (void**)obj);
    }
    else if (!wcsicmp(progid, L"WMPlayer.OCX")) {
       CComObject<WMPCore>* pObj = nullptr;
