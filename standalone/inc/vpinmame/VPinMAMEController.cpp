@@ -43,11 +43,6 @@ void CALLBACK VPinMAMEController::OnLogMessage(PINMAME_LOG_LEVEL logLevel, const
    }
 }
 
-void CALLBACK VPinMAMEController::OnSoundCommand(int boardNo, int cmd, const void* pUserData)
-{
-   ((VPinMAMEController*)pUserData)->OnSoundCommand(boardNo, cmd);
-}
-
 void CALLBACK VPinMAMEController::GetGameCallback(PinmameGame* pPinmameGame)
 {
    if (m_pPinmameGame)
@@ -273,11 +268,6 @@ int VPinMAMEController::OnAudioUpdated(void* p_buffer, int samples)
    return samples;
 }
 
-void VPinMAMEController::OnSoundCommand(int boardNo, int cmd)
-{
-   AltsoundProcessCommand(cmd, 0);
-}
-
 VPinMAMEController::VPinMAMEController()
 {
    PinmameConfig config = { 
@@ -295,7 +285,7 @@ VPinMAMEController::VPinMAMEController()
       NULL,
       NULL,
       &VPinMAMEController::OnLogMessage,
-      &VPinMAMEController::OnSoundCommand,
+      NULL,
    };
 
    Settings* const pSettings = &g_pplayer->m_ptable->m_settings;
@@ -436,6 +426,7 @@ STDMETHODIMP VPinMAMEController::Run(/*[in]*/ LONG_PTR hParentWnd, /*[in,default
 
          m_rgb = (PinmameGetHardwareGen() == PINMAME_HARDWARE_GEN_SAM);
 
+#if 0
          AltsoundSetLogger(g_pvp->m_szMyPrefPath, ALTSOUND_LOG_LEVEL_INFO, false);
 
          if (AltsoundInit(m_szPath, string(m_pPinmameGame->name))) {
@@ -444,6 +435,7 @@ STDMETHODIMP VPinMAMEController::Run(/*[in]*/ LONG_PTR hParentWnd, /*[in,default
 
             PLOGI.printf("Altsound initialized successfully.");
          }
+#endif
 
          return S_OK;
       }
